@@ -1,0 +1,36 @@
+{
+  "name": "crypto-monitor",
+  "version": "1.0.0",
+  "author": "Kevin Chu <kevinchu.work@gmail.com>",
+  "license": "Private Use Only",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "pm2": "pm2 start btcusd.js --watch; pm2 start btceur.js --watch; pm2 start btcgbp.js --watch; pm2 start ethusd.js --watch; pm2 start etheur.js --watch; pm2 start ethgbp.js --watch; pm2 start ethbtc.js --watch;",
+    "docker-run": "docker build -t crypto-monitor . && docker run -dp 8080:8080 crypto-monitor",
+    "gcloud-build": "~/google-cloud-sdk/bin/gcloud builds submit --tag gcr.io/crypto-monitor-54b8b/crypto-monitor-bitstamp-btcusd",
+    "gcloud-deploy": "~/google-cloud-sdk/bin/gcloud run deploy --image gcr.io/crypto-monitor-54b8b/crypto-monitor-bitstamp-btcusd --platform managed"
+  },
+  "engines": {
+    "node": ">= 12.0.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "debug": "^4.3.1",
+    "firebase-admin": "^9.6.0",
+    "http": "^0.0.1-security",
+    "reconnecting-websocket": "^4.4.0",
+    "request": "^2.88.2",
+    "ws": "^7.4.4"
+  },
+  "devDependencies": {
+    "eslint": "^7.23.0"
+  },
+  "nodemonConfig": {
+    "env": {
+      "NODE_ENV": "production",
+      "PAIR": "btcgbp"
+    }
+  }
+}
